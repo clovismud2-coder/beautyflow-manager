@@ -1,0 +1,35 @@
+
+# Beauty Flow Manager
+
+**A ClientFlow AI product**
+
+Beauty Flow Manager is a bilingual platform designed to help beauty salons manage their daily activities.
+
+## Main features
+
+- Salon management
+- Customer management
+- Employee management
+- Service and pricing management
+- Online and staff-created appointments
+- Appointment calendar
+- French and English languages
+
+## Technology
+
+- Next.js
+- TypeScript
+- Supabase
+
+## Business model
+
+Monthly subscriptions for independent beauty salons and salon businesses.
+
+## Languages
+
+- French
+- English
+
+---
+
+Developed by **ClientFlow AI**.
