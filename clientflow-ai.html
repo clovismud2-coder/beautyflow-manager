@@ -1,26 +1,56 @@
-ClientFlow AI
-UNIVERSAL BUSINESS MANAGER
-⌂ Tableau de bord
-♙ Clients
-▦ Produits / Services
-＄ Ventes
-✓ Tâches & rappels
-⚙ Mon entreprise
-Tableau de bord
-FrançaisEnglish
-Bienvenue dans votre entreprise 👋
-Gérez vos clients, produits, services et ventes depuis un seul espace.
-Clients
-0
-Produits / Services
-0
-Ventes
-0
-Chiffre d'affaires
-0
-Activité récente
-Aucune activité.
-Démarrage rapide
-1. Configurez votre entreprise. 2. Ajoutez vos clients. 3. Ajoutez vos produits ou services. 4. Enregistrez vos ventes.
-Configurer mon entreprise
-Version de démonstration : les données sont enregistrées dans ce navigateur uniquement. Les comptes en ligne et les fonctions IA connectées seront ajoutés ensuite.
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ClientFlow AI — Universal Business Manager</title>
+<style>
+:root{--bg:#f5f6fa;--card:#fff;--ink:#20233a;--muted:#777d91;--line:#e8eaf1;--brand:#6557d9}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 system-ui,sans-serif}
+.app{min-height:100vh;display:grid;grid-template-columns:225px 1fr}.side{background:#17182d;color:#fff;padding:22px 15px}
+.brand{font-size:20px;font-weight:800;margin:5px 8px 25px}.brand small{display:block;color:#bbb;font-size:10px;letter-spacing:1px}
+.nav{display:grid;gap:6px}.nav button{border:0;background:transparent;color:#ccc;text-align:left;padding:12px;border-radius:9px;font-size:14px}.nav button.active{background:#302d50;color:#fff}
+.main{padding:26px;min-width:0}.top{display:flex;justify-content:space-between;align-items:center;margin-bottom:22px;gap:10px}.top h1{margin:0;font-size:27px}
+button,input,select{font:inherit}input,select{padding:10px;border:1px solid var(--line);border-radius:9px;background:#fff}.page{display:none}.page.active{display:block}
+.hero{background:linear-gradient(110deg,#5d50c9,#987de4);color:#fff;padding:23px;border-radius:16px;margin-bottom:17px}.hero h2{margin:0 0 5px}.hero p{margin:0;font-size:13px}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:16px}.card,.stat{background:#fff;border:1px solid var(--line);border-radius:13px;padding:16px}.stat small,.muted{color:var(--muted);font-size:12px}.stat strong{display:block;font-size:26px;margin-top:6px}
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:13px}.card h3{margin:0 0 12px;font-size:15px}.toolbar{display:flex;justify-content:space-between;gap:10px;margin:16px 0}
+.primary{background:var(--brand);color:#fff;border:0;padding:10px 14px;border-radius:9px;font-weight:700}.tablewrap{overflow:auto}.data{width:100%;border-collapse:collapse;min-width:480px}.data th,.data td{text-align:left;padding:11px;border-bottom:1px solid var(--line);font-size:12px}.data th{color:var(--muted);font-size:10px}
+.empty{padding:24px;text-align:center;color:var(--muted);font-size:12px}.fields{display:grid;grid-template-columns:1fr 1fr;gap:12px}.field{display:grid;gap:5px}.field label{font-size:12px;font-weight:700}.field.full{grid-column:1/-1}.field input,.field select{width:100%}
+.modal{display:none;position:fixed;inset:0;background:#10112499;align-items:center;justify-content:center;padding:15px}.modal.open{display:flex}.dialog{background:#fff;padding:20px;border-radius:15px;width:min(470px,100%);max-height:90vh;overflow:auto}
+.dialoghead,.formend{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:15px}.formend{justify-content:flex-end;margin-top:16px}.secondary{background:#fff;border:1px solid var(--line);padding:9px 12px;border-radius:8px}
+.rowitem{display:flex;justify-content:space-between;gap:12px;padding:10px 0;border-bottom:1px solid var(--line);font-size:12px}.toast{display:none;position:fixed;bottom:18px;left:50%;transform:translateX(-50%);background:#222;color:#fff;padding:10px 15px;border-radius:9px}
+@media(max-width:760px){.app{grid-template-columns:1fr}.side{padding:12px}.brand{margin:0 5px 10px}.nav{display:flex;overflow:auto}.nav button{white-space:nowrap;padding:9px;font-size:12px}.main{padding:17px 12px}.stats{grid-template-columns:repeat(2,1fr)}.cols{grid-template-columns:1fr}}
+@media(max-width:430px){.fields{grid-template-columns:1fr}.field.full{grid-column:auto}.top h1{font-size:21px}}
+</style></head>
+<body>
+<div class="app">
+<aside class="side"><div class="brand">ClientFlow AI<small>UNIVERSAL BUSINESS MANAGER</small></div>
+<nav class="nav"><button class="active" data-page="dashboard">⌂ Tableau de bord</button><button data-page="clients">♙ Clients</button><button data-page="items">▦ Produits / Services</button><button data-page="sales">＄ Ventes</button><button data-page="tasks">✓ Tâches & rappels</button><button data-page="settings">⚙ Mon entreprise</button></nav></aside>
+<main class="main"><header class="top"><h1 id="pageTitle">Tableau de bord</h1><select id="language"><option value="fr">Français</option><option value="en">English</option></select></header>
+<section class="page active" id="dashboard"><div class="hero"><h2 id="welcome">Bienvenue dans votre entreprise 👋</h2><p>Gérez vos clients, produits, services et ventes depuis un seul espace.</p></div>
+<div class="stats"><div class="stat"><small>Clients</small><strong id="nClients">0</strong></div><div class="stat"><small>Produits / Services</small><strong id="nItems">0</strong></div><div class="stat"><small>Ventes</small><strong id="nSales">0</strong></div><div class="stat"><small>Chiffre d'affaires</small><strong id="revenue">0</strong></div></div>
+<div class="cols"><div class="card"><h3>Activité récente</h3><div id="recent" class="muted">Aucune activité.</div></div><div class="card"><h3>Démarrage rapide</h3><p class="muted">1. Configurez votre entreprise. 2. Ajoutez vos clients. 3. Ajoutez vos produits ou services. 4. Enregistrez vos ventes.</p><button class="primary" onclick="go('settings')">Configurer mon entreprise</button></div></div><p class="muted">Version de démonstration : données enregistrées dans ce navigateur uniquement. Les comptes en ligne et les fonctions IA connectées seront ajoutés ensuite.</p></section>
+<section class="page" id="clients"><p class="muted">Coordonnées de vos clients et prospects.</p><div class="toolbar"><input id="clientSearch" placeholder="Rechercher un client"><button class="primary" onclick="openForm('client')">＋ Ajouter un client</button></div><div class="card tablewrap"><table class="data"><thead><tr><th>NOM</th><th>TÉLÉPHONE</th><th>E-MAIL</th><th>NOTES</th></tr></thead><tbody id="clientRows"></tbody></table><div class="empty" id="clientEmpty">Aucun client enregistré.</div></div></section>
+<section class="page" id="items"><p class="muted">Articles vendus ou services proposés.</p><div class="toolbar"><input id="itemSearch" placeholder="Rechercher"><button class="primary" onclick="openForm('item')">＋ Ajouter</button></div><div class="card tablewrap"><table class="data"><thead><tr><th>NOM</th><th>TYPE</th><th>PRIX</th><th>STOCK</th></tr></thead><tbody id="itemRows"></tbody></table><div class="empty" id="itemEmpty">Aucun produit ou service.</div></div></section>
+<section class="page" id="sales"><p class="muted">Enregistrez vos ventes pour suivre votre activité.</p><div class="toolbar"><span></span><button class="primary" onclick="openForm('sale')">＋ Enregistrer une vente</button></div><div class="card tablewrap"><table class="data"><thead><tr><th>DATE</th><th>CLIENT</th><th>ARTICLE</th><th>MONTANT</th></tr></thead><tbody id="saleRows"></tbody></table><div class="empty" id="saleEmpty">Aucune vente enregistrée.</div></div></section>
+<section class="page" id="tasks"><p class="muted">Rappels et actions à effectuer.</p><div class="toolbar"><span></span><button class="primary" onclick="openForm('task')">＋ Ajouter une tâche</button></div><div class="card" id="taskRows"><div class="empty">Aucune tâche.</div></div></section>
+<section class="page" id="settings"><div class="card"><h3>Profil de l'entreprise</h3><form id="businessForm" class="fields"><div class="field"><label>Nom de l'entreprise</label><input name="name" id="businessName" placeholder="Ma petite entreprise"></div><div class="field"><label>Secteur d'activité</label><select name="industry" id="industry"><option>Commerce / Boutique</option><option>Beauté / Bien-être</option><option>Restaurant / Café</option><option>Services professionnels</option><option>Éducation / Formation</option><option>Autre activité</option></select></div><div class="field"><label>Pays</label><input name="country" id="country" placeholder="RDC"></div><div class="field"><label>Devise</label><select name="currency" id="currency"><option value="USD">USD</option><option value="CDF">CDF</option><option value="EUR">EUR</option><option value="XOF">XOF</option><option value="GBP">GBP</option></select></div><div class="field full"><button class="primary">Enregistrer mon entreprise</button></div></form></div></section>
+</main></div>
+<div class="modal" id="modal"><div class="dialog"><div class="dialoghead"><h3 id="formTitle">Ajouter</h3><button class="secondary" type="button" onclick="closeForm()">Fermer ×</button></div><form id="entryForm"><div id="formFields" class="fields"></div><div class="formend"><button type="button" class="secondary" onclick="closeForm()">Annuler</button><button class="primary">Enregistrer</button></div></form></div></div><div class="toast" id="toast"></div>
+<script>
+const $=s=>document.querySelector(s),all=s=>[...document.querySelectorAll(s)],read=k=>{try{return JSON.parse(localStorage.getItem('clientflow_'+k)||'[]')}catch(e){return[]}},write=(k,v)=>localStorage.setItem('clientflow_'+k,JSON.stringify(v));
+let clients=read('clients'),items=read('items'),sales=read('sales'),tasks=read('tasks'),profile=JSON.parse(localStorage.getItem('clientflow_profile')||'{}'),currency=profile.currency||'USD',formType='';
+function go(id){all('.page').forEach(p=>p.classList.toggle('active',p.id===id));all('.nav button').forEach(b=>b.classList.toggle('active',b.dataset.page===id));$('#pageTitle').textContent=({dashboard:'Tableau de bord',clients:'Clients',items:'Produits / Services',sales:'Ventes',tasks:'Tâches & rappels',settings:'Mon entreprise'})[id];render()}
+all('.nav button').forEach(b=>b.onclick=()=>go(b.dataset.page));
+function toast(s){$('#toast').textContent=s;$('#toast').style.display='block';setTimeout(()=>$('#toast').style.display='none',2200)}
+function safe(s){return String(s||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function money(n){try{return new Intl.NumberFormat('fr-FR',{style:'currency',currency,maximumFractionDigits:2}).format(Number(n)||0)}catch(e){return n+' '+currency}}
+function openForm(type){formType=type;let defs={client:[['name','Nom complet *','text',1],['phone','Téléphone','tel'],['email','E-mail','email'],['notes','Entreprise / notes','text']],item:[['name','Nom *','text',1],['kind','Type','select'],['price','Prix','number'],['stock','Stock (facultatif)','number']],sale:[['client','Client','client'],['item','Produit / service *','item',1],['amount','Montant *','number',1]],task:[['title','Tâche *','text',1],['due','Date limite','date'],['notes','Détails','text']]};$('#formTitle').textContent={client:'Ajouter un client',item:'Ajouter un produit / service',sale:'Enregistrer une vente',task:'Ajouter une tâche'}[type];$('#formFields').innerHTML=defs[type].map(([n,l,k,r])=>{let x=k==='select'?'<select name="kind"><option>Produit</option><option>Service</option></select>':k==='client'?'<select name="client"><option value="">Client comptant</option>'+clients.map(c=>'<option value="'+c.id+'">'+safe(c.name)+'</option>').join('')+'</select>':k==='item'?'<select name="item"><option value="">Choisir</option>'+items.map(p=>'<option value="'+p.id+'">'+safe(p.name)+'</option>').join('')+'</select>':'<input name="'+n+'" type="'+k+'" '+(r?'required':'')+' '+(k==='number'?'min="0" step="0.01"':'')+'>';return '<div class="field"><label>'+l+'</label>'+x+'</div>'}).join('');$('#modal').classList.add('open')}
+function closeForm(){$('#modal').classList.remove('open')}
+$('#entryForm').onsubmit=e=>{e.preventDefault();let d=Object.fromEntries(new FormData(e.target)),id=Date.now();if(formType==='client')clients.unshift({...d,id});if(formType==='item')items.unshift({...d,id});if(formType==='sale'){let p=items.find(x=>String(x.id)===d.item);sales.unshift({...d,id,date:new Date().toISOString().slice(0,10),itemName:p?.name||'—',clientName:clients.find(x=>String(x.id)===d.client)?.name||'Client comptant'})}if(formType==='task')tasks.unshift({...d,id});[['clients',clients],['items',items],['sales',sales],['tasks',tasks]].forEach(([k,v])=>write(k,v));e.target.reset();closeForm();render();toast('Enregistré avec succès')};
+$('#businessForm').onsubmit=e=>{e.preventDefault();profile=Object.fromEntries(new FormData(e.target));currency=profile.currency||'USD';localStorage.setItem('clientflow_profile',JSON.stringify(profile));$('#welcome').textContent='Bienvenue chez '+(profile.name||'votre entreprise')+' 👋';toast('Profil enregistré')};
+function render(){$('#nClients').textContent=clients.length;$('#nItems').textContent=items.length;$('#nSales').textContent=sales.length;$('#revenue').textContent=money(sales.reduce((a,s)=>a+Number(s.amount||0),0));$('#recent').innerHTML=sales.slice(0,5).map(s=>'<div class="rowitem"><span>'+safe(s.itemName)+' · '+safe(s.clientName)+'</span><b>'+money(s.amount)+'</b></div>').join('')||'Aucune activité.';let q=($('#clientSearch')?.value||'').toLowerCase(),cs=clients.filter(c=>(c.name+c.phone+c.email+c.notes).toLowerCase().includes(q));$('#clientRows').innerHTML=cs.map(c=>'<tr><td>'+safe(c.name)+'</td><td>'+safe(c.phone||'—')+'</td><td>'+safe(c.email||'—')+'</td><td>'+safe(c.notes||'—')+'</td></tr>').join('');$('#clientEmpty').style.display=cs.length?'none':'block';let iq=($('#itemSearch')?.value||'').toLowerCase(),its=items.filter(p=>p.name.toLowerCase().includes(iq));$('#itemRows').innerHTML=its.map(p=>'<tr><td>'+safe(p.name)+'</td><td>'+safe(p.kind||'—')+'</td><td>'+money(p.price)+'</td><td>'+safe(p.stock||'—')+'</td></tr>').join('');$('#itemEmpty').style.display=its.length?'none':'block';$('#saleRows').innerHTML=sales.map(s=>'<tr><td>'+s.date+'</td><td>'+safe(s.clientName)+'</td><td>'+safe(s.itemName)+'</td><td>'+money(s.amount)+'</td></tr>').join('');$('#saleEmpty').style.display=sales.length?'none':'block';$('#taskRows').innerHTML=tasks.map(x=>'<div class="rowitem"><span><b>'+safe(x.title)+'</b><br><small>'+safe(x.due||'')+' '+safe(x.notes||'')+'</small></span><span>À faire</span></div>').join('')||'<div class="empty">Aucune tâche.</div>'}
+$('#clientSearch').oninput=render;$('#itemSearch').oninput=render;
+if(profile.name)$('#businessName').value=profile.name;if(profile.country)$('#country').value=profile.country;if(profile.industry)$('#industry').value=profile.industry;if(profile.currency)$('#currency').value=profile.currency;if(profile.name)$('#welcome').textContent='Bienvenue chez '+profile.name+' 👋';render();
+</script></body></html>
