@@ -1,137 +1,26 @@
-<!doctype html>
-<html lang="fr">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="theme-color" content="#17142b">
-<title>ClientFlow AI — Beauty Salon Manager</title>
-<style>
-:root{--bg:#f6f5fb;--panel:#fff;--ink:#211d35;--muted:#77738b;--line:#ece9f3;--purple:#7057d9;--purple2:#eeeaff;--pink:#f5e8f1;--green:#18866a;--amber:#b87918;--shadow:0 12px 35px rgba(42,31,83,.07)}
-*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif}
-button,input,select,textarea{font:inherit}button{cursor:pointer}
-.app{display:grid;grid-template-columns:245px 1fr;min-height:100vh}.sidebar{background:#17142b;color:#fff;padding:28px 18px;display:flex;flex-direction:column;gap:25px}.brand{display:flex;align-items:center;gap:12px;padding:0 8px}.logo{width:42px;height:42px;border-radius:14px;background:linear-gradient(135deg,#a58df5,#e9a9cf);display:grid;place-items:center;color:#20183b;font-weight:900;font-size:20px}.brand strong{display:block;font-size:17px;letter-spacing:.2px}.brand small{color:#bdb7d4;font-size:11px}.nav-label{font-size:10px;letter-spacing:1.5px;color:#88829f;padding:0 12px;margin:5px 0}.nav{display:grid;gap:6px}.nav button{border:0;background:transparent;color:#c9c4d9;text-align:left;padding:12px;border-radius:11px;display:flex;gap:12px;align-items:center}.nav button.active,.nav button:hover{background:#30294b;color:white}.nav .ico{width:20px;text-align:center}.side-note{margin-top:auto;background:#26213e;border:1px solid #393252;border-radius:15px;padding:15px;color:#c9c4d9;font-size:12px}.side-note b{display:block;color:white;margin-bottom:5px}
-.main{min-width:0;padding:30px clamp(18px,4vw,48px) 50px}.topbar{display:flex;justify-content:space-between;align-items:center;gap:15px;margin-bottom:28px}.eyebrow{color:var(--purple);font-weight:700;font-size:11px;letter-spacing:1.5px;text-transform:uppercase}.topbar h1{font-size:clamp(24px,3vw,32px);margin:4px 0 0;letter-spacing:-.8px}.top-actions{display:flex;gap:10px;align-items:center}.lang{border:1px solid var(--line);background:white;border-radius:10px;padding:9px 12px;color:var(--ink)}.avatar{width:38px;height:38px;border-radius:50%;background:#e8ddff;color:#6147c8;display:grid;place-items:center;font-weight:800}
-.page{display:none}.page.active{display:block}.welcome{background:linear-gradient(110deg,#7057d9,#9275e9 60%,#c28dc5);color:white;padding:25px 28px;border-radius:20px;display:flex;justify-content:space-between;align-items:center;gap:20px;box-shadow:var(--shadow);margin-bottom:22px}.welcome h2{margin:0 0 5px;font-size:21px}.welcome p{margin:0;color:#eee9ff;font-size:13px}.welcome .spark{font-size:45px;opacity:.9}
-.stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;margin-bottom:22px}.stat,.panel{background:var(--panel);border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow)}.stat{padding:18px}.stat-top{display:flex;justify-content:space-between;color:var(--muted);font-size:12px}.stat-icon{width:32px;height:32px;border-radius:10px;background:var(--purple2);display:grid;place-items:center}.stat strong{display:block;font-size:27px;margin-top:10px;letter-spacing:-1px}.stat small{color:var(--muted);font-size:11px}
-.columns{display:grid;grid-template-columns:1.3fr 1fr;gap:16px}.panel{padding:20px;min-width:0}.panel-head{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:15px}.panel h3{margin:0;font-size:15px}.muted{color:var(--muted);font-size:12px}.linkbtn{border:0;background:transparent;color:var(--purple);font-weight:700;font-size:12px}
-.item{display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid var(--line)}.item:last-child{border-bottom:0}.person{width:38px;height:38px;border-radius:12px;background:var(--pink);display:grid;place-items:center;color:#9a5785;font-weight:800;flex-shrink:0}.item-main{min-width:0;flex:1}.item-main b{display:block;font-size:13px}.item-main small{color:var(--muted);font-size:11px}.time{font-size:12px;font-weight:700;white-space:nowrap}.pill{font-size:10px;padding:4px 8px;border-radius:20px;background:#e8f6f0;color:var(--green);white-space:nowrap}.pill.wait{background:#fff3df;color:var(--amber)}
-.toolbar{display:flex;justify-content:space-between;gap:12px;align-items:center;margin:20px 0}.search{width:min(320px,100%);border:1px solid var(--line);background:white;border-radius:10px;padding:10px 13px;outline:none}.primary{border:0;background:var(--purple);color:white;border-radius:10px;padding:10px 15px;font-weight:700}.primary:hover{background:#5c44c4}.secondary{border:1px solid var(--line);background:white;color:var(--ink);border-radius:10px;padding:9px 13px}.table-wrap{overflow-x:auto}.data-table{width:100%;border-collapse:collapse;min-width:560px}.data-table th{text-align:left;color:var(--muted);font-size:11px;font-weight:600;padding:12px;border-bottom:1px solid var(--line)}.data-table td{padding:13px 12px;border-bottom:1px solid var(--line);font-size:12px}.empty{text-align:center;padding:35px 10px;color:var(--muted);font-size:13px}
-.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:13px}.field{display:grid;gap:6px}.field.full{grid-column:1/-1}.field label{font-size:12px;font-weight:700}.field input,.field select,.field textarea{border:1px solid var(--line);border-radius:10px;padding:10px 11px;background:#fff;outline:none;width:100%}.field input:focus,.field select:focus,.field textarea:focus,.search:focus{border-color:#a99aeb;box-shadow:0 0 0 3px #eeeaff}.form-actions{display:flex;justify-content:flex-end;gap:9px;margin-top:18px}.modal{position:fixed;inset:0;background:#17142b88;display:none;align-items:center;justify-content:center;padding:18px;z-index:5}.modal.open{display:flex}.dialog{background:white;width:min(520px,100%);border-radius:18px;padding:23px;max-height:90vh;overflow:auto;box-shadow:0 20px 60px #17142b44}.dialog-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px}.dialog-head h3{margin:0}.close{border:0;background:#f2f0f7;border-radius:9px;width:32px;height:32px;font-size:18px}
-.follow-card{padding:15px;border:1px solid var(--line);border-radius:13px;margin-bottom:10px;display:flex;justify-content:space-between;gap:12px;align-items:center}.follow-card b{font-size:13px}.follow-card p{margin:3px 0 0;color:var(--muted);font-size:11px}
-.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#211d35;color:white;padding:11px 17px;border-radius:10px;box-shadow:var(--shadow);display:none;z-index:10;font-size:13px}
-@media(max-width:850px){.app{grid-template-columns:1fr}.sidebar{padding:14px;gap:12px}.brand{padding:0 4px}.nav-label,.side-note{display:none}.nav{display:flex;overflow:auto}.nav button{white-space:nowrap;padding:9px 11px;font-size:12px}.main{padding:22px 16px 40px}.stats{grid-template-columns:repeat(2,minmax(0,1fr))}.columns{grid-template-columns:1fr}}
-@media(max-width:480px){.topbar{align-items:flex-start}.welcome{padding:20px}.welcome .spark{font-size:30px}.form-grid{grid-template-columns:1fr}.field.full{grid-column:auto}.top-actions{gap:6px}.avatar{display:none}}
-</style>
-</head>
-<body>
-<div class="app">
-<aside class="sidebar">
-  <div class="brand"><div class="logo">C</div><div><strong>ClientFlow AI</strong><small>BEAUTY SALON MANAGER</small></div></div>
-  <div><div class="nav-label" data-fr="ESPACE DE TRAVAIL" data-en="WORKSPACE">ESPACE DE TRAVAIL</div>
-  <nav class="nav">
-    <button class="active" data-page="dashboard"><span class="ico">⌂</span><span data-fr="Tableau de bord" data-en="Dashboard">Tableau de bord</span></button>
-    <button data-page="clients"><span class="ico">♙</span><span data-fr="Clients" data-en="Clients">Clients</span></button>
-    <button data-page="appointments"><span class="ico">▦</span><span data-fr="Rendez-vous" data-en="Appointments">Rendez-vous</span></button>
-    <button data-page="followups"><span class="ico">↗</span><span data-fr="Suivi commercial" data-en="Follow-ups">Suivi commercial</span></button>
-  </nav></div>
-  <div class="side-note"><b>✦ ClientFlow AI</b><span data-fr="Organisez votre salon. Fidélisez vos clients. Développez votre activité." data-en="Organize your salon. Keep clients coming back. Grow your business.">Organisez votre salon. Fidélisez vos clients. Développez votre activité.</span></div>
-</aside>
-<main class="main">
-<header class="topbar"><div><div class="eyebrow" data-fr="VOTRE ESPACE BEAUTÉ" data-en="YOUR BEAUTY WORKSPACE">VOTRE ESPACE BEAUTÉ</div><h1 id="pageTitle">Tableau de bord</h1></div><div class="top-actions"><select class="lang" id="language" aria-label="Language"><option value="fr">Français</option><option value="en">English</option></select><div class="avatar">CF</div></div></header>
-
-<section class="page active" id="dashboard">
-  <div class="welcome"><div><h2 data-fr="Bienvenue dans votre salon ✨" data-en="Welcome to your salon ✨">Bienvenue dans votre salon ✨</h2><p data-fr="Tout ce dont vous avez besoin pour gérer vos clients et vos rendez-vous." data-en="Everything you need to manage your clients and appointments.">Tout ce dont vous avez besoin pour gérer vos clients et vos rendez-vous.</p></div><div class="spark">✿</div></div>
-  <div class="stats">
-    <div class="stat"><div class="stat-top"><span data-fr="Total clients" data-en="Total clients">Total clients</span><span class="stat-icon">♙</span></div><strong id="statClients">0</strong><small data-fr="Clients enregistrés" data-en="Saved clients">Clients enregistrés</small></div>
-    <div class="stat"><div class="stat-top"><span data-fr="Rendez-vous" data-en="Appointments">Rendez-vous</span><span class="stat-icon">▦</span></div><strong id="statAppointments">0</strong><small data-fr="Au total" data-en="Total">Au total</small></div>
-    <div class="stat"><div class="stat-top"><span data-fr="À venir" data-en="Upcoming">À venir</span><span class="stat-icon">◷</span></div><strong id="statUpcoming">0</strong><small data-fr="Rendez-vous planifiés" data-en="Scheduled appointments">Rendez-vous planifiés</small></div>
-    <div class="stat"><div class="stat-top"><span data-fr="Suivis à faire" data-en="Follow-ups due">Suivis à faire</span><span class="stat-icon">↗</span></div><strong id="statFollow">0</strong><small data-fr="Clients à recontacter" data-en="Clients to contact">Clients à recontacter</small></div>
-  </div>
-  <div class="columns">
-    <div class="panel"><div class="panel-head"><h3 data-fr="Prochains rendez-vous" data-en="Upcoming appointments">Prochains rendez-vous</h3><button class="linkbtn" data-go="appointments" data-fr="Voir tout →" data-en="View all →">Voir tout →</button></div><div id="dashAppointments"></div></div>
-    <div class="panel"><div class="panel-head"><h3 data-fr="Clients récents" data-en="Recent clients">Clients récents</h3><button class="linkbtn" data-go="clients" data-fr="Voir tout →" data-en="View all →">Voir tout →</button></div><div id="dashClients"></div></div>
-  </div>
-</section>
-
-<section class="page" id="clients">
-  <div class="muted" data-fr="Conservez les coordonnées et les préférences de vos clients." data-en="Keep your clients' contact details and preferences.">Conservez les coordonnées et les préférences de vos clients.</div>
-  <div class="toolbar"><input class="search" id="clientSearch" placeholder="Rechercher un client…"><button class="primary" id="addClientBtn">＋ <span data-fr="Ajouter un client" data-en="Add client">Ajouter un client</span></button></div>
-  <div class="panel table-wrap"><table class="data-table"><thead><tr><th data-fr="CLIENT" data-en="CLIENT">CLIENT</th><th data-fr="TÉLÉPHONE" data-en="PHONE">TÉLÉPHONE</th><th data-fr="E-MAIL" data-en="EMAIL">E-MAIL</th><th data-fr="NOTES" data-en="NOTES">NOTES</th></tr></thead><tbody id="clientsBody"></tbody></table><div class="empty" id="clientsEmpty" style="display:none" data-fr="Aucun client pour le moment. Ajoutez votre premier client." data-en="No clients yet. Add your first client.">Aucun client pour le moment. Ajoutez votre premier client.</div></div>
-</section>
-
-<section class="page" id="appointments">
-  <div class="muted" data-fr="Planifiez les prestations et gardez votre agenda organisé." data-en="Schedule services and keep your calendar organized.">Planifiez les prestations et gardez votre agenda organisé.</div>
-  <div class="toolbar"><input class="search" id="appointmentSearch" placeholder="Rechercher un rendez-vous…"><button class="primary" id="addAppointmentBtn">＋ <span data-fr="Nouveau rendez-vous" data-en="New appointment">Nouveau rendez-vous</span></button></div>
-  <div class="panel table-wrap"><table class="data-table"><thead><tr><th data-fr="CLIENT" data-en="CLIENT">CLIENT</th><th data-fr="PRESTATION" data-en="SERVICE">PRESTATION</th><th data-fr="DATE" data-en="DATE">DATE</th><th data-fr="HEURE" data-en="TIME">HEURE</th><th data-fr="STATUT" data-en="STATUS">STATUT</th></tr></thead><tbody id="appointmentsBody"></tbody></table><div class="empty" id="appointmentsEmpty" style="display:none" data-fr="Aucun rendez-vous enregistré." data-en="No appointments recorded.">Aucun rendez-vous enregistré.</div></div>
-</section>
-
-<section class="page" id="followups">
-  <div class="muted" data-fr="Notez les personnes à recontacter après une prestation ou une demande." data-en="Track people to contact after a service or an enquiry.">Notez les personnes à recontacter après une prestation ou une demande.</div>
-  <div class="toolbar"><span class="muted" data-fr="Vos rappels de suivi" data-en="Your follow-up reminders">Vos rappels de suivi</span><button class="primary" id="addFollowBtn">＋ <span data-fr="Ajouter un suivi" data-en="Add follow-up">Ajouter un suivi</span></button></div>
-  <div class="panel"><div id="followList"></div><div class="empty" id="followEmpty" style="display:none" data-fr="Aucun suivi pour le moment." data-en="No follow-ups yet.">Aucun suivi pour le moment.</div></div>
-</section>
-</main></div>
-
-<div class="modal" id="clientModal"><div class="dialog"><div class="dialog-head"><h3 data-fr="Ajouter un client" data-en="Add a client">Ajouter un client</h3><button class="close" data-close="clientModal">×</button></div><form id="clientForm"><div class="form-grid">
-<div class="field"><label data-fr="Nom complet *" data-en="Full name *">Nom complet *</label><input name="name" required placeholder="Ex. Marie K."></div>
-<div class="field"><label data-fr="Téléphone" data-en="Phone">Téléphone</label><input name="phone" type="tel" placeholder="+243…"></div>
-<div class="field"><label>E-mail</label><input name="email" type="email" placeholder="client@email.com"></div>
-<div class="field"><label data-fr="Préférence / service" data-en="Preference / service">Préférence / service</label><input name="notes" placeholder="Ex. Coiffure, manucure…"></div>
-</div><div class="form-actions"><button type="button" class="secondary" data-close="clientModal" data-fr="Annuler" data-en="Cancel">Annuler</button><button class="primary" type="submit" data-fr="Enregistrer" data-en="Save">Enregistrer</button></div></form></div></div>
-
-<div class="modal" id="appointmentModal"><div class="dialog"><div class="dialog-head"><h3 data-fr="Nouveau rendez-vous" data-en="New appointment">Nouveau rendez-vous</h3><button class="close" data-close="appointmentModal">×</button></div><form id="appointmentForm"><div class="form-grid">
-<div class="field full"><label data-fr="Client *" data-en="Client *">Client *</label><select name="client" id="appointmentClient" required></select></div>
-<div class="field"><label data-fr="Prestation *" data-en="Service *">Prestation *</label><input name="service" required placeholder="Ex. Coiffure"></div>
-<div class="field"><label data-fr="Date *" data-en="Date *">Date *</label><input name="date" type="date" required></div>
-<div class="field"><label data-fr="Heure *" data-en="Time *">Heure *</label><input name="time" type="time" required></div>
-<div class="field"><label data-fr="Statut" data-en="Status">Statut</label><select name="status"><option value="Confirmé" data-fr="Confirmé" data-en="Confirmed">Confirmé</option><option value="En attente" data-fr="En attente" data-en="Pending">En attente</option><option value="Terminé" data-fr="Terminé" data-en="Completed">Terminé</option></select></div>
-</div><div class="form-actions"><button type="button" class="secondary" data-close="appointmentModal" data-fr="Annuler" data-en="Cancel">Annuler</button><button class="primary" type="submit" data-fr="Enregistrer" data-en="Save">Enregistrer</button></div></form></div></div>
-
-<div class="modal" id="followModal"><div class="dialog"><div class="dialog-head"><h3 data-fr="Ajouter un suivi" data-en="Add follow-up">Ajouter un suivi</h3><button class="close" data-close="followModal">×</button></div><form id="followForm"><div class="form-grid">
-<div class="field full"><label data-fr="Client *" data-en="Client *">Client *</label><select name="client" id="followClient" required></select></div>
-<div class="field"><label data-fr="À recontacter le *" data-en="Contact again on *">À recontacter le *</label><input name="date" type="date" required></div>
-<div class="field"><label data-fr="Motif" data-en="Reason">Motif</label><input name="reason" placeholder="Ex. Demander un avis"></div>
-</div><div class="form-actions"><button type="button" class="secondary" data-close="followModal" data-fr="Annuler" data-en="Cancel">Annuler</button><button class="primary" type="submit" data-fr="Enregistrer" data-en="Save">Enregistrer</button></div></form></div></div>
-<div class="toast" id="toast"></div>
-
-<script>
-const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
-const store={get(k){try{return JSON.parse(localStorage.getItem('clientflow_'+k)||'[]')}catch(e){return[]}},set(k,v){localStorage.setItem('clientflow_'+k,JSON.stringify(v))}};
-let clients=store.get('clients'),appointments=store.get('appointments'),followups=store.get('followups'),lang='fr';
-const tr=(fr,en)=>lang==='fr'?fr:en;
-function esc(s=''){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
-function toast(msg){let t=$('#toast');t.textContent=msg;t.style.display='block';setTimeout(()=>t.style.display='none',2400)}
-function initials(name){return (name||'?').trim().split(/\s+/).slice(0,2).map(x=>x[0]).join('').toUpperCase()}
-function showPage(id){$$('.page').forEach(p=>p.classList.toggle('active',p.id===id));$$('.nav button').forEach(b=>b.classList.toggle('active',b.dataset.page===id));$('#pageTitle').textContent=({dashboard:tr('Tableau de bord','Dashboard'),clients:tr('Clients','Clients'),appointments:tr('Rendez-vous','Appointments'),followups:tr('Suivi commercial','Follow-ups')})[id];render()}
-$$('.nav button').forEach(b=>b.addEventListener('click',()=>showPage(b.dataset.page)));
-$$('[data-go]').forEach(b=>b.addEventListener('click',()=>showPage(b.dataset.go)));
-function openModal(id){if(id==='appointmentModal'||id==='followModal')fillClientOptions();$('#'+id).classList.add('open')}
-$$('[data-close]').forEach(b=>b.addEventListener('click',()=>$('#'+b.dataset.close).classList.remove('open')));
-$$('.modal').forEach(m=>m.addEventListener('click',e=>{if(e.target===m)m.classList.remove('open')}));
-$('#addClientBtn').onclick=()=>openModal('clientModal');$('#addAppointmentBtn').onclick=()=>openModal('appointmentModal');$('#addFollowBtn').onclick=()=>openModal('followModal');
-function fillClientOptions(){['appointmentClient','followClient'].forEach(id=>{let s=$('#'+id);s.innerHTML=clients.map(c=>`<option value="${c.id}">${esc(c.name)}</option>`).join('');if(!clients.length)s.innerHTML=`<option value="">${tr('Ajoutez d’abord un client','Add a client first')}</option>`})}
-$('#clientForm').onsubmit=e=>{e.preventDefault();let d=Object.fromEntries(new FormData(e.target));clients.unshift({...d,id:Date.now()});store.set('clients',clients);e.target.reset();$('#clientModal').classList.remove('open');render();toast(tr('Client enregistré','Client saved'))};
-$('#appointmentForm').onsubmit=e=>{e.preventDefault();let d=Object.fromEntries(new FormData(e.target));appointments.push({...d,id:Date.now()});store.set('appointments',appointments);e.target.reset();$('#appointmentModal').classList.remove('open');render();toast(tr('Rendez-vous enregistré','Appointment saved'))};
-$('#followForm').onsubmit=e=>{e.preventDefault();let d=Object.fromEntries(new FormData(e.target));followups.push({...d,id:Date.now(),done:false});store.set('followups',followups);e.target.reset();$('#followModal').classList.remove('open');render();toast(tr('Suivi ajouté','Follow-up added'))};
-function clientName(id){return clients.find(c=>String(c.id)===String(id))?.name||tr('Client supprimé','Deleted client')}
-function dateFmt(d){if(!d)return'—';return new Date(d+'T00:00:00').toLocaleDateString(lang==='fr'?'fr-FR':'en-GB',{day:'2-digit',month:'short',year:'numeric'})}
-function render(){
- $('#statClients').textContent=clients.length;$('#statAppointments').textContent=appointments.length;
- let today=new Date().toISOString().slice(0,10);$('#statUpcoming').textContent=appointments.filter(a=>a.date>=today&&a.status!=='Terminé').length;$('#statFollow').textContent=followups.filter(f=>!f.done).length;
- let upcoming=[...appointments].filter(a=>a.date>=today&&a.status!=='Terminé').sort((a,b)=>(a.date+a.time).localeCompare(b.date+b.time)).slice(0,5);
- $('#dashAppointments').innerHTML=upcoming.length?upcoming.map(a=>`<div class="item"><div class="person">▦</div><div class="item-main"><b>${esc(clientName(a.client))}</b><small>${esc(a.service)} · ${dateFmt(a.date)}</small></div><div class="time">${esc(a.time)}</div></div>`).join():`<div class="empty">${tr('Aucun rendez-vous à venir.','No upcoming appointments.')}</div>`;
- $('#dashClients').innerHTML=clients.slice(0,5).map(c=>`<div class="item"><div class="person">${initials(c.name)}</div><div class="item-main"><b>${esc(c.name)}</b><small>${esc(c.phone||c.email||tr('Nouveau client','New client'))}</small></div></div>`).join('')||`<div class="empty">${tr('Vos nouveaux clients apparaîtront ici.','Your new clients will appear here.')}</div>`;
- let q=($('#clientSearch')?.value||'').toLowerCase(), filtered=clients.filter(c=>(c.name+c.phone+c.email+c.notes).toLowerCase().includes(q));
- $('#clientsBody').innerHTML=filtered.map(c=>`<tr><td><b>${esc(c.name)}</b></td><td>${esc(c.phone||'—')}</td><td>${esc(c.email||'—')}</td><td>${esc(c.notes||'—')}</td></tr>`).join('');$('#clientsEmpty').style.display=filtered.length?'none':'block';
- let aq=($('#appointmentSearch')?.value||'').toLowerCase(), af=appointments.filter(a=>(clientName(a.client)+a.service+a.date).toLowerCase().includes(aq)).sort((a,b)=>(a.date+a.time).localeCompare(b.date+b.time));
- $('#appointmentsBody').innerHTML=af.map(a=>`<tr><td><b>${esc(clientName(a.client))}</b></td><td>${esc(a.service)}</td><td>${dateFmt(a.date)}</td><td>${esc(a.time)}</td><td><span class="pill ${a.status==='En attente'?'wait':''}">${esc(lang==='en'?({'Confirmé':'Confirmed','En attente':'Pending','Terminé':'Completed'}[a.status]||a.status):a.status)}</span></td></tr>`).join('');$('#appointmentsEmpty').style.display=af.length?'none':'block';
- $('#followList').innerHTML=followups.filter(f=>!f.done).sort((a,b)=>a.date.localeCompare(b.date)).map(f=>`<div class="follow-card"><div><b>${esc(clientName(f.client))}</b><p>${dateFmt(f.date)} · ${esc(f.reason||tr('Suivi client','Client follow-up'))}</p></div><button class="secondary" onclick="completeFollow(${f.id})">${tr('Terminé','Done')}</button></div>`).join('');$('#followEmpty').style.display=followups.some(f=>!f.done)?'none':'block';
-}
-window.completeFollow=id=>{followups=followups.map(f=>f.id===id?{...f,done:true}:f);store.set('followups',followups);render();toast(tr('Suivi terminé','Follow-up completed'))};
-$('#clientSearch').addEventListener('input',render);$('#appointmentSearch').addEventListener('input',render);
-function setLanguage(v){lang=v;document.documentElement.lang=v;$$('[data-fr]').forEach(el=>{el.textContent=el.dataset[v]||el.textContent});$('#clientSearch').placeholder=tr('Rechercher un client…','Search clients…');$('#appointmentSearch').placeholder=tr('Rechercher un rendez-vous…','Search appointments…');showPage($('.nav button.active')?.dataset.page||'dashboard')}
-$('#language').addEventListener('change',e=>setLanguage(e.target.value));
-render();
-</script>
-</body>
-</html>
+ClientFlow AI
+UNIVERSAL BUSINESS MANAGER
+⌂ Tableau de bord
+♙ Clients
+▦ Produits / Services
+＄ Ventes
+✓ Tâches & rappels
+⚙ Mon entreprise
+Tableau de bord
+FrançaisEnglish
+Bienvenue dans votre entreprise 👋
+Gérez vos clients, produits, services et ventes depuis un seul espace.
+Clients
+0
+Produits / Services
+0
+Ventes
+0
+Chiffre d'affaires
+0
+Activité récente
+Aucune activité.
+Démarrage rapide
+1. Configurez votre entreprise. 2. Ajoutez vos clients. 3. Ajoutez vos produits ou services. 4. Enregistrez vos ventes.
+Configurer mon entreprise
+Version de démonstration : les données sont enregistrées dans ce navigateur uniquement. Les comptes en ligne et les fonctions IA connectées seront ajoutés ensuite.
