@@ -88,8 +88,18 @@ const testButton = document.createElement('button');
 testButton.textContent = 'Tester Supabase';
 testButton.className = 'primary';
 testButton.style.margin = '10px';
-
 testButton.onclick = async () => {
+  const { data, error } = await supabaseClient
+    .from('businesses')
+    .select('id')
+    .limit(1);
+
+  if (error) {
+    alert('Erreur Supabase : ' + error.message);
+  } else {
+    alert('Connexion à la table businesses réussie !');
+  }
+};
   const { data, error } = await supabaseClient.auth.getUser();
 
   if (error) {
