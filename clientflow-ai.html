@@ -39,7 +39,13 @@ button,input,select{font:inherit}input,select{padding:10px;border:1px solid var(
 </main></div>
 <div class="modal" id="modal"><div class="dialog"><div class="dialoghead"><h3 id="formTitle">Ajouter</h3><button class="secondary" type="button" onclick="closeForm()">Fermer ×</button></div><form id="entryForm"><div id="formFields" class="fields"></div><div class="formend"><button type="button" class="secondary" onclick="closeForm()">Annuler</button><button class="primary">Enregistrer</button></div></form></div></div><div class="toast" id="toast"></div>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script>
+<script>const SUPABASE_URL = 'https://jvtfifxaqtwqfcufckhc.supabase.co';
+const SUPABASE_KEY = 'sb_publishable_4v2IqbDwml-M5SuhEUijwQ_ELFgthRb';
+
+const supabaseClient = window.supabase.createClient(
+  SUPABASE_URL,
+  SUPABASE_KEY
+);
 const $=s=>document.querySelector(s),all=s=>[...document.querySelectorAll(s)],read=k=>{try{return JSON.parse(localStorage.getItem('clientflow_'+k)||'[]')}catch(e){return[]}},write=(k,v)=>localStorage.setItem('clientflow_'+k,JSON.stringify(v));
 let clients=read('clients'),items=read('items'),sales=read('sales'),tasks=read('tasks'),profile=JSON.parse(localStorage.getItem('clientflow_profile')||'{}'),currency=profile.currency||'USD',formType='';
 function go(id){all('.page').forEach(p=>p.classList.toggle('active',p.id===id));all('.nav button').forEach(b=>b.classList.toggle('active',b.dataset.page===id));$('#pageTitle').textContent=({dashboard:'Tableau de bord',clients:'Clients',items:'Produits / Services',sales:'Ventes',tasks:'Tâches & rappels',settings:'Mon entreprise'})[id];render()}
