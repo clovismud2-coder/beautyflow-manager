@@ -47,15 +47,25 @@ const supabaseClient = window.supabase.createClient(
   SUPABASE_KEY
 );
 const $=s=>document.querySelector(s),
-all=s=>[...document.querySelectorAll(s)],
-read=k=>{
-  try {
-    return JSON.parse(localStorage.getItem('clientflow_'+k)||'[]');
-  } catch(e) {
-    return [];
-  }
-},
-write=(k,v)=>localStorage.setItem('clientflow_'+k,JSON.stringify(v));
+all=s=>[...document.querySelector('.top').appendChild(testButton);
+
+let clients = read('clients');
+let items = read('items');
+let sales = read('sales');
+let tasks = read('tasks');
+
+let profile = {};
+
+try {
+  profile = JSON.parse(
+    localStorage.getItem('clientflow_profile') || '{}'
+  );
+} catch (e) {
+  profile = {};
+}
+
+let currency = profile.currency || 'USD';
+let formType = '';
 
 const testButton = document.createElement('button');
 testButton.textContent = 'Tester Supabase';
