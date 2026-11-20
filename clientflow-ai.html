@@ -46,7 +46,18 @@ const supabaseClient = window.supabase.createClient(
   SUPABASE_URL,
   SUPABASE_KEY
 );
-const $=s=>document.querySelector(s),all=s=>[...document.querySelectorAll(s)],read=k=>{try{return JSON.parse(localStorage.getItem('clientflow_'+k)||'[]')}catch(e){return[]}},write=(k,v)=>localStorage.setItem('clientflow_'+k,JSON.stringify(v));const testButton = document.createElement('button');
+const $=s=>document.querySelector(s),
+all=s=>[...document.querySelectorAll(s)],
+read=k=>{
+  try {
+    return JSON.parse(localStorage.getItem('clientflow_'+k)||'[]');
+  } catch(e) {
+    return [];
+  }
+},
+write=(k,v)=>localStorage.setItem('clientflow_'+k,JSON.stringify(v));
+
+const testButton = document.createElement('button');
 testButton.textContent = 'Tester Supabase';
 testButton.className = 'primary';
 testButton.style.margin = '10px';
@@ -62,17 +73,8 @@ testButton.onclick = async () => {
     alert('Supabase accessible, aucun utilisateur connecté.');
   }
 };
-testButton.onclick = async () => {
-  const { data, error } = await supabaseClient.auth.getUser();
 
-  if (error) {
-    alert('Erreur : ' + error.message);
-  } else if (data.user) {
-    alert('Utilisateur connecté : ' + data.user.email);
-  } else {
-    alert('Supabase accessible, aucun utilisateur
-document.querySelector('.top').appendChild(testButton);
-let clients=read('clients'),items=read('items'),sales=read('sales'),tasks=read('tasks'),profile=JSON.parse(localStorage.getItem('clientflow_profile')||'{}'),currency=profile.currency||'USD',formType='';
+document.querySelector('.top').appendChild(testButton);items=read('items'),sales=read('sales'),tasks=read('tasks'),profile=JSON.parse(localStorage.getItem('clientflow_profile')||'{}'),currency=profile.currency||'USD',formType='';
 function go(id){all('.page').forEach(p=>p.classList.toggle('active',p.id===id));all('.nav button').forEach(b=>b.classList.toggle('active',b.dataset.page===id));$('#pageTitle').textContent=({dashboard:'Tableau de bord',clients:'Clients',items:'Produits / Services',sales:'Ventes',tasks:'Tâches & rappels',settings:'Mon entreprise'})[id];render()}
 all('.nav button').forEach(b=>b.onclick=()=>go(b.dataset.page));
 function toast(s){$('#toast').textContent=s;$('#toast').style.display='block';setTimeout(()=>$('#toast').style.display='none',2200)}
