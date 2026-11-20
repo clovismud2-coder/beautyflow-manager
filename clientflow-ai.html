@@ -43,11 +43,28 @@ button,input,select{font:inherit}input,select{padding:10px;border:1px solid var(
 const SUPABASE_KEY = 'sb_publishable_4v2IqbDwml-M5SuhEUijwQ_ELFgthRb';
 
 const supabaseClient = window.supabase.createClient(
+
+const SUPABASE_URL = 'https://jvtfifxaqtwqfcufckhc.supabase.co';
+const SUPABASE_KEY = 'sb_publishable_4v2IqbDwml-M5SuhEUijwQ_ELFgthRb';
+
+const supabaseClient = window.supabase.createClient(
   SUPABASE_URL,
   SUPABASE_KEY
 );
-const $=s=>document.querySelector(s),
-all=s=>[...document.querySelector('.top').appendChild(testButton);
+
+const $ = s => document.querySelector(s);
+const all = s => [...document.querySelectorAll(s)];
+
+const read = k => {
+  try {
+    return JSON.parse(localStorage.getItem('clientflow_' + k) || '[]');
+  } catch (e) {
+    return [];
+  }
+};
+
+const write = (k, v) =>
+  localStorage.setItem('clientflow_' + k, JSON.stringify(v));
 
 let clients = read('clients');
 let items = read('items');
@@ -84,17 +101,247 @@ testButton.onclick = async () => {
   }
 };
 
-document.querySelector('.top').appendChild(testButton);items=read('items'),sales=read('sales'),tasks=read('tasks'),profile=JSON.parse(localStorage.getItem('clientflow_profile')||'{}'),currency=profile.currency||'USD',formType='';
-function go(id){all('.page').forEach(p=>p.classList.toggle('active',p.id===id));all('.nav button').forEach(b=>b.classList.toggle('active',b.dataset.page===id));$('#pageTitle').textContent=({dashboard:'Tableau de bord',clients:'Clients',items:'Produits / Services',sales:'Ventes',tasks:'Tâches & rappels',settings:'Mon entreprise'})[id];render()}
-all('.nav button').forEach(b=>b.onclick=()=>go(b.dataset.page));
-function toast(s){$('#toast').textContent=s;$('#toast').style.display='block';setTimeout(()=>$('#toast').style.display='none',2200)}
-function safe(s){return String(s||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
-function money(n){try{return new Intl.NumberFormat('fr-FR',{style:'currency',currency,maximumFractionDigits:2}).format(Number(n)||0)}catch(e){return n+' '+currency}}
-function openForm(type){formType=type;let defs={client:[['name','Nom complet *','text',1],['phone','Téléphone','tel'],['email','E-mail','email'],['notes','Entreprise / notes','text']],item:[['name','Nom *','text',1],['kind','Type','select'],['price','Prix','number'],['stock','Stock (facultatif)','number']],sale:[['client','Client','client'],['item','Produit / service *','item',1],['amount','Montant *','number',1]],task:[['title','Tâche *','text',1],['due','Date limite','date'],['notes','Détails','text']]};$('#formTitle').textContent={client:'Ajouter un client',item:'Ajouter un produit / service',sale:'Enregistrer une vente',task:'Ajouter une tâche'}[type];$('#formFields').innerHTML=defs[type].map(([n,l,k,r])=>{let x=k==='select'?'<select name="kind"><option>Produit</option><option>Service</option></select>':k==='client'?'<select name="client"><option value="">Client comptant</option>'+clients.map(c=>'<option value="'+c.id+'">'+safe(c.name)+'</option>').join('')+'</select>':k==='item'?'<select name="item"><option value="">Choisir</option>'+items.map(p=>'<option value="'+p.id+'">'+safe(p.name)+'</option>').join('')+'</select>':'<input name="'+n+'" type="'+k+'" '+(r?'required':'')+' '+(k==='number'?'min="0" step="0.01"':'')+'>';return '<div class="field"><label>'+l+'</label>'+x+'</div>'}).join('');$('#modal').classList.add('open')}
-function closeForm(){$('#modal').classList.remove('open')}
-$('#entryForm').onsubmit=e=>{e.preventDefault();let d=Object.fromEntries(new FormData(e.target)),id=Date.now();if(formType==='client')clients.unshift({...d,id});if(formType==='item')items.unshift({...d,id});if(formType==='sale'){let p=items.find(x=>String(x.id)===d.item);sales.unshift({...d,id,date:new Date().toISOString().slice(0,10),itemName:p?.name||'—',clientName:clients.find(x=>String(x.id)===d.client)?.name||'Client comptant'})}if(formType==='task')tasks.unshift({...d,id});[['clients',clients],['items',items],['sales',sales],['tasks',tasks]].forEach(([k,v])=>write(k,v));e.target.reset();closeForm();render();toast('Enregistré avec succès')};
-$('#businessForm').onsubmit=e=>{e.preventDefault();profile=Object.fromEntries(new FormData(e.target));currency=profile.currency||'USD';localStorage.setItem('clientflow_profile',JSON.stringify(profile));$('#welcome').textContent='Bienvenue chez '+(profile.name||'votre entreprise')+' 👋';toast('Profil enregistré')};
-function render(){$('#nClients').textContent=clients.length;$('#nItems').textContent=items.length;$('#nSales').textContent=sales.length;$('#revenue').textContent=money(sales.reduce((a,s)=>a+Number(s.amount||0),0));$('#recent').innerHTML=sales.slice(0,5).map(s=>'<div class="rowitem"><span>'+safe(s.itemName)+' · '+safe(s.clientName)+'</span><b>'+money(s.amount)+'</b></div>').join('')||'Aucune activité.';let q=($('#clientSearch')?.value||'').toLowerCase(),cs=clients.filter(c=>(c.name+c.phone+c.email+c.notes).toLowerCase().includes(q));$('#clientRows').innerHTML=cs.map(c=>'<tr><td>'+safe(c.name)+'</td><td>'+safe(c.phone||'—')+'</td><td>'+safe(c.email||'—')+'</td><td>'+safe(c.notes||'—')+'</td></tr>').join('');$('#clientEmpty').style.display=cs.length?'none':'block';let iq=($('#itemSearch')?.value||'').toLowerCase(),its=items.filter(p=>p.name.toLowerCase().includes(iq));$('#itemRows').innerHTML=its.map(p=>'<tr><td>'+safe(p.name)+'</td><td>'+safe(p.kind||'—')+'</td><td>'+money(p.price)+'</td><td>'+safe(p.stock||'—')+'</td></tr>').join('');$('#itemEmpty').style.display=its.length?'none':'block';$('#saleRows').innerHTML=sales.map(s=>'<tr><td>'+s.date+'</td><td>'+safe(s.clientName)+'</td><td>'+safe(s.itemName)+'</td><td>'+money(s.amount)+'</td></tr>').join('');$('#saleEmpty').style.display=sales.length?'none':'block';$('#taskRows').innerHTML=tasks.map(x=>'<div class="rowitem"><span><b>'+safe(x.title)+'</b><br><small>'+safe(x.due||'')+' '+safe(x.notes||'')+'</small></span><span>À faire</span></div>').join('')||'<div class="empty">Aucune tâche.</div>'}
-$('#clientSearch').oninput=render;$('#itemSearch').oninput=render;
-if(profile.name)$('#businessName').value=profile.name;if(profile.country)$('#country').value=profile.country;if(profile.industry)$('#industry').value=profile.industry;if(profile.currency)$('#currency').value=profile.currency;if(profile.name)$('#welcome').textContent='Bienvenue chez '+profile.name+' 👋';render();
-</script></body></html>
+document.querySelector('.top').appendChild(testButton);
+
+function go(id) {
+  all('.page').forEach(p =>
+    p.classList.toggle('active', p.id === id)
+  );
+
+  all('.nav button').forEach(b =>
+    b.classList.toggle('active', b.dataset.page === id)
+  );
+
+  $('#pageTitle').textContent = ({
+    dashboard: 'Tableau de bord',
+    clients: 'Clients',
+    items: 'Produits / Services',
+    sales: 'Ventes',
+    tasks: 'Tâches & rappels',
+    settings: 'Mon entreprise'
+  })[id];
+
+  render();
+}
+
+all('.nav button').forEach(b =>
+  b.onclick = () => go(b.dataset.page)
+);
+
+function toast(s) {
+  $('#toast').textContent = s;
+  $('#toast').style.display = 'block';
+  setTimeout(() => $('#toast').style.display = 'none', 2200);
+}
+
+function safe(s) {
+  return String(s || '').replace(/[&<>"']/g, c => ({
+    '&': '&amp;',
+    '<': '&lt;',
+    '>': '&gt;',
+    '"': '&quot;',
+    "'": '&#39;'
+  })[c]);
+}
+
+function money(n) {
+  try {
+    return new Intl.NumberFormat('fr-FR', {
+      style: 'currency',
+      currency,
+      maximumFractionDigits: 2
+    }).format(Number(n) || 0);
+  } catch (e) {
+    return n + ' ' + currency;
+  }
+}
+
+function openForm(type) {
+  formType = type;
+
+  let defs = {
+    client: [
+      ['name', 'Nom complet *', 'text', 1],
+      ['phone', 'Téléphone', 'tel'],
+      ['email', 'E-mail', 'email'],
+      ['notes', 'Entreprise / notes', 'text']
+    ],
+    item: [
+      ['name', 'Nom *', 'text', 1],
+      ['kind', 'Type', 'select'],
+      ['price', 'Prix', 'number'],
+      ['stock', 'Stock (facultatif)', 'number']
+    ],
+    sale: [
+      ['client', 'Client', 'client'],
+      ['item', 'Produit / service *', 'item', 1],
+      ['amount', 'Montant *', 'number', 1]
+    ],
+    task: [
+      ['title', 'Tâche *', 'text', 1],
+      ['due', 'Date limite', 'date'],
+      ['notes', 'Détails', 'text']
+    ]
+  };
+
+  $('#formTitle').textContent = {
+    client: 'Ajouter un client',
+    item: 'Ajouter un produit / service',
+    sale: 'Enregistrer une vente',
+    task: 'Ajouter une tâche'
+  }[type];
+
+  $('#formFields').innerHTML = defs[type].map(([n, l, k, r]) => {
+    let x = k === 'select'
+      ? '<select name="kind"><option>Produit</option><option>Service</option></select>'
+      : k === 'client'
+      ? '<select name="client"><option value="">Client comptant</option>' +
+        clients.map(c => '<option value="' + c.id + '">' +
+        safe(c.name) + '</option>').join('') + '</select>'
+      : k === 'item'
+      ? '<select name="item"><option value="">Choisir</option>' +
+        items.map(p => '<option value="' + p.id + '">' +
+        safe(p.name) + '</option>').join('') + '</select>'
+      : '<input name="' + n + '" type="' + k + '" ' +
+        (r ? 'required' : '') +
+        (k === 'number' ? ' min="0" step="0.01"' : '') + '>';
+
+    return '<div class="field"><label>' + l + '</label>' + x + '</div>';
+  }).join('');
+
+  $('#modal').classList.add('open');
+}
+
+function closeForm() {
+  $('#modal').classList.remove('open');
+}
+
+$('#entryForm').onsubmit = e => {
+  e.preventDefault();
+
+  let d = Object.fromEntries(new FormData(e.target));
+  let id = Date.now();
+
+  if (formType === 'client') clients.unshift({...d, id});
+  if (formType === 'item') items.unshift({...d, id});
+
+  if (formType === 'sale') {
+    let p = items.find(x => String(x.id) === d.item);
+
+    sales.unshift({
+      ...d,
+      id,
+      date: new Date().toISOString().slice(0, 10),
+      itemName: p?.name || '—',
+      clientName: clients.find(x => String(x.id) === d.client)?.name || 'Client comptant'
+    });
+  }
+
+  if (formType === 'task') tasks.unshift({...d, id});
+
+  [
+    ['clients', clients],
+    ['items', items],
+    ['sales', sales],
+    ['tasks', tasks]
+  ].forEach(([k, v]) => write(k, v));
+
+  e.target.reset();
+  closeForm();
+  render();
+  toast('Enregistré avec succès');
+};
+
+$('#businessForm').onsubmit = e => {
+  e.preventDefault();
+
+  profile = Object.fromEntries(new FormData(e.target));
+  currency = profile.currency || 'USD';
+
+  localStorage.setItem('clientflow_profile', JSON.stringify(profile));
+
+  $('#welcome').textContent =
+    'Bienvenue chez ' + (profile.name || 'votre entreprise') + ' 👋';
+
+  toast('Profil enregistré');
+};
+
+function render() {
+  $('#nClients').textContent = clients.length;
+  $('#nItems').textContent = items.length;
+  $('#nSales').textContent = sales.length;
+
+  $('#revenue').textContent = money(
+    sales.reduce((a, s) => a + Number(s.amount || 0), 0)
+  );
+
+  $('#recent').innerHTML = sales.slice(0, 5).map(s =>
+    '<div class="rowitem"><span>' +
+    safe(s.itemName) + ' · ' + safe(s.clientName) +
+    '</span><b>' + money(s.amount) + '</b></div>'
+  ).join('') || 'Aucune activité.';
+
+  let q = ($('#clientSearch')?.value || '').toLowerCase();
+
+  let cs = clients.filter(c =>
+    [c.name, c.phone, c.email, c.notes]
+      .join(' ')
+      .toLowerCase()
+      .includes(q)
+  );
+
+  $('#clientRows').innerHTML = cs.map(c =>
+    '<tr><td>' + safe(c.name) +
+    '</td><td>' + safe(c.phone || '—') +
+    '</td><td>' + safe(c.email || '—') +
+    '</td><td>' + safe(c.notes || '—') + '</td></tr>'
+  ).join('');
+
+  $('#clientEmpty').style.display = cs.length ? 'none' : 'block';
+
+  let iq = ($('#itemSearch')?.value || '').toLowerCase();
+
+  let its = items.filter(p =>
+    String(p.name || '').toLowerCase().includes(iq)
+  );
+
+  $('#itemRows').innerHTML = its.map(p =>
+    '<tr><td>' + safe(p.name) +
+    '</td><td>' + safe(p.kind || '—') +
+    '</td><td>' + money(p.price) +
+    '</td><td>' + safe(p.stock || '—') + '</td></tr>'
+  ).join('');
+
+  $('#itemEmpty').style.display = its.length ? 'none' : 'block';
+
+  $('#saleRows').innerHTML = sales.map(s =>
+    '<tr><td>' + safe(s.date) +
+    '</td><td>' + safe(s.clientName) +
+    '</td><td>' + safe(s.itemName) +
+    '</td><td>' + money(s.amount) + '</td></tr>'
+  ).join('');
+
+  $('#saleEmpty').style.display = sales.length ? 'none' : 'block';
+
+  $('#taskRows').innerHTML = tasks.map(x =>
+    '<div class="rowitem"><span><b>' +
+    safe(x.title) + '</b><br><small>' +
+    safe(x.due || '') + ' ' + safe(x.notes || '') +
+    '</small></span><span>À faire</span></div>'
+  ).join('') || '<div class="empty">Aucune tâche.</div>';
+}
+
+$('#clientSearch').oninput = render;
+$('#itemSearch').oninput = render;
+
+if (profile.name) $('#businessName').value = profile.name;
+if (profile.country) $('#country').value = profile.country;
+if (profile.industry) $('#industry').value = profile.industry;
+if (profile.currency) $('#currency').value = profile.currency;
+
+if (profile.name) {
+  $('#welcome').textContent = 'Bienvenue chez ' + profile.name + ' 👋';
+}
+
+render();
+
