@@ -70,11 +70,7 @@ testButton.onclick = async () => {
   } else if (data.user) {
     alert('Utilisateur connecté : ' + data.user.email);
   } else {
-    alert('Supabase accessible, aucun utilisateur connecté.');
-  }
-};
-
-document.body.appendChild(testButton);
+    alert('Supabase accessible, aucun utilisateur
 document.querySelector('.top').appendChild(testButton);
 let clients=read('clients'),items=read('items'),sales=read('sales'),tasks=read('tasks'),profile=JSON.parse(localStorage.getItem('clientflow_profile')||'{}'),currency=profile.currency||'USD',formType='';
 function go(id){all('.page').forEach(p=>p.classList.toggle('active',p.id===id));all('.nav button').forEach(b=>b.classList.toggle('active',b.dataset.page===id));$('#pageTitle').textContent=({dashboard:'Tableau de bord',clients:'Clients',items:'Produits / Services',sales:'Ventes',tasks:'Tâches & rappels',settings:'Mon entreprise'})[id];render()}
