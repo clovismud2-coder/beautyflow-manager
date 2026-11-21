@@ -40,17 +40,14 @@ button,input,select{font:inherit}input,select{padding:10px;border:1px solid var(
 <div class="modal" id="modal"><div class="dialog"><div class="dialoghead"><h3 id="formTitle">Ajouter</h3><button class="secondary" type="button" onclick="closeForm()">Fermer ×</button></div><form id="entryForm"><div id="formFields" class="fields"></div><div class="formend"><button type="button" class="secondary" onclick="closeForm()">Annuler</button><button class="primary">Enregistrer</button></div></form></div></div><div class="toast" id="toast"></div>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>const SUPABASE_URL = 'https://jvtfifxaqtwqfcufckhc.supabase.co';
-const SUPABASE_KEY = 'sb_publishable_4v2IqbDwml-M5SuhEUijwQ_ELFgthRb';
-
-const supabaseClient = window.supabase.createClient(
-
-const SUPABASE_URL = 'https://jvtfifxaqtwqfcufckhc.supabase.co';
-const SUPABASE_KEY = 'sb_publishable_4v2IqbDwml-M5SuhEUijwQ_ELFgthRb';
+const SUPABASE_KEY = 'TA_CLE_PUBLISHABLE_EXISTANTE';
 
 const supabaseClient = window.supabase.createClient(
   SUPABASE_URL,
   SUPABASE_KEY
 );
+
+const $ = s => document.querySelector(s);
 
 const $ = s => document.querySelector(s);
 const all = s => [...document.querySelectorAll(s)];
